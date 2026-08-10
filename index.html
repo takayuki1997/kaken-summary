@@ -88,11 +88,13 @@
   #status { font-size: .92rem; color: var(--mut); margin: 1.2rem 0 0; min-height: 1.5em; }
   #status.ok { color: var(--pop-ink); font-weight: 700; }
   #status.error { color: var(--err); white-space: pre-wrap; }
+  #logbox { display: none; margin: .8rem 0 0; }
+  #logbox summary { font-size: .78rem; color: var(--mut); cursor: pointer; }
   #log {
     background: var(--field); border: 1px solid var(--line); border-radius: 8px;
     padding: .7rem .9rem; font-family: ui-monospace, "SF Mono", Menlo, monospace;
     font-size: .76rem; white-space: pre-wrap; max-height: 13rem; overflow-y: auto;
-    margin-top: .8rem; display: none; color: var(--mut);
+    margin-top: .4rem; color: var(--mut);
   }
   #results { display: none; margin-top: 1rem; }
   #dl-zip a {
@@ -142,7 +144,10 @@
     <input type="file" id="file" accept=".json,application/json">
 
     <div id="status">準備中…</div>
-    <div id="log"></div>
+    <details id="logbox">
+      <summary>詳細ログ</summary>
+      <div id="log"></div>
+    </details>
 
     <div id="results">
       <div id="dl-zip"></div>
@@ -193,7 +198,7 @@
     statusEl.className = kind || "";
   }
   function appendLog(msg) {
-    logEl.style.display = "block";
+    document.getElementById("logbox").style.display = "block";
     logEl.textContent += msg + "\n";
     logEl.scrollTop = logEl.scrollHeight;
   }
@@ -213,6 +218,7 @@
     } else if (d.type === "error") {
       running = false;
       setStatus("エラーが発生しました:\n" + d.msg + "\n（ページを再読み込みして再試行してください）", "error");
+      document.getElementById("logbox").open = true;
     }
   };
   worker.onerror = (e) => {
