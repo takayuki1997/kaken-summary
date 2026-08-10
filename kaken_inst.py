@@ -12,6 +12,7 @@ INSTITUTIONS = {
     "fukushima": "福島大学",
     "okayama": "岡山大学",
     "kobe": "神戸大学",
+    "kyoto": "京都大学",
 }
 
 DEFAULT_KEY = "jaist"
